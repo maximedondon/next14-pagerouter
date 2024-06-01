@@ -1,0 +1,20 @@
+services:
+  portfolio:
+    image: image:latest
+    container_name: nextjs-app
+    restart: always
+    ports:
+      - "46104:80"
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.yourservice.entrypoints=web, websecure
+      - traefik.http.routers.yourservice.rule=Host(`exemple.com`)
+      - traefik.http.routers.yourservice.tls=true
+      - traefik.http.routers.yourservice.tls.certresolver=production
+
+networks:
+  proxy:
+    external: true
+    name: proxy
