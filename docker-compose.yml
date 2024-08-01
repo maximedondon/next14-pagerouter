@@ -1,19 +1,34 @@
 services:
   portfolio:
+    # Put the image name of your choice if your build locally
+    # If you're building and uploading on dockerHub, login to your account before pulling the image
     image: image:latest
+    
+    # Optionnal if you don't run Traefik reverse proxy
+    depends_on:
+      - traefik
+    
+    # The name of the container
     container_name: nextjs-app
     restart: always
     ports:
-      - "46104:80"
+      # set the port you want to be available locally
+      - "8091:80"
+
+    # Optionnal if you don't want to bind the container to a specific network
     networks:
       - proxy
+    
     labels:
+    # Traefik configuration
+    # Edit the service "yourservice" by the name of your choice
       - traefik.enable=true
       - traefik.http.routers.yourservice.entrypoints=web, websecure
       - traefik.http.routers.yourservice.rule=Host(`exemple.com`)
       - traefik.http.routers.yourservice.tls=true
       - traefik.http.routers.yourservice.tls.certresolver=production
 
+# Optionnal if you don't want to bind the container to a specific network
 networks:
   proxy:
     external: true

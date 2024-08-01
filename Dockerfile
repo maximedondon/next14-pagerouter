@@ -1,9 +1,11 @@
 FROM node:18-bullseye
 
+# Args & Enable corepack
 ARG BACKEND_WORKING_DIR=usr/app
 ENV BACKEND_WORKING_DIR=${BACKEND_WORKING_DIR}
 RUN corepack enable
 
+# Prepare the dir
 RUN mkdir -p /$BACKEND_WORKING_DIR;
 WORKDIR /$BACKEND_WORKING_DIR
 COPY ./package.json .
